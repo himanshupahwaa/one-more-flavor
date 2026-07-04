@@ -63,13 +63,13 @@
   .hero-note{margin-top:18px;font-size:.95rem;color:var(--ink-soft)}
   .hero-note b{color:var(--ink)}
 
-  .collage{position:relative;min-height:380px;display:grid;place-items:center}
-  .collage .ph{position:absolute;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:4px solid var(--surface)}
+  .collage{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
+  .collage .ph{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);border:3px solid var(--surface);aspect-ratio:1;min-width:0}
   .collage .ph img{display:block;width:100%;height:100%;object-fit:cover}
-  .p1{width:60%;aspect-ratio:4/5;z-index:2;transform:rotate(-4deg)}
-  .p2{width:44%;aspect-ratio:1;top:8%;right:2%;z-index:3;transform:rotate(5deg)}
-  .p3{width:42%;aspect-ratio:1;bottom:4%;left:4%;z-index:1;transform:rotate(6deg)}
-  .badge-logo{position:absolute;z-index:4;bottom:2%;right:8%;width:96px;height:96px;border-radius:50%;background:var(--cream);box-shadow:var(--shadow);border:4px solid var(--surface);display:grid;place-items:center;overflow:hidden}
+  .p1{grid-column:1;grid-row:1 / span 2;aspect-ratio:auto}
+  .p2{grid-column:2;grid-row:1}
+  .p3{grid-column:2;grid-row:2}
+  .badge-logo{position:absolute;z-index:4;left:-14px;bottom:-14px;width:82px;height:82px;border-radius:50%;background:var(--cream);box-shadow:var(--shadow);border:4px solid var(--surface);display:grid;place-items:center;overflow:hidden}
   .badge-logo img{width:100%;height:100%;object-fit:cover}
 
   .strip{background:var(--brick)}
@@ -147,9 +147,17 @@
 
   @media(max-width:860px){
     .hero-grid,.story-grid{grid-template-columns:1fr}
-    .collage{order:-1;min-height:320px}
+    .collage{order:-1;max-width:460px;margin-inline:auto;width:100%}
     .promise,.steps{grid-template-columns:1fr}
     section{padding:54px 0}
+  }
+  @media(max-width:560px){
+    .nav-inner{padding:9px 0;gap:10px}
+    .brand{font-size:.98rem;line-height:1.15}
+    .brand img{width:34px;height:34px}
+    .nav-links{gap:12px}
+    .nav-links .btn{padding:.6em 1em;font-size:.9rem}
+    .hero-grid{padding-top:28px}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
