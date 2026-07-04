@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="One More Flavor — delicious gluten-free and nut-free cookies, baked fresh to order.">
+<title>One More Flavor — Cookies worth a second helping</title>
+<style>
+  :root {
+    /* --- warm light theme --- */
+    --milk: #FFF7F2;
+    --milk-deep: #FCEDE4;
+    --surface: #FFFFFF;
+    --ink: #2E1B15;
+    --ink-soft: #6E5248;
+    --line: #F0DCD0;
+
+    --berry: #E24A73;        /* decorative */
+    --berry-deep: #C0355C;   /* buttons / links (white text passes AA) */
+    --berry-tint: #FCE7EC;
+    --honey: #F5A623;
+    --honey-tint: #FDEECB;
+
+    /* flavor dots */
+    --f-choc: #7A4A2B;
+    --f-matcha: #7FA653;
+    --f-berry: #D2547E;
+    --f-blue: #6C7BD1;
+    --f-lemon: #E9B93B;
+    --f-vanilla: #E3C79A;
+
+    --cookie-1: #E7B36A;
+    --cookie-2: #C6863C;
+    --cookie-edge: #A6672A;
+    --chip: #5A3620;
+
+    --shadow: 0 18px 44px -20px rgba(74, 38, 22, .35);
+    --shadow-sm: 0 8px 22px -12px rgba(74, 38, 22, .30);
+    --radius: 22px;
+
+    --display: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN",
+               "Segoe UI", system-ui, sans-serif;
+    --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+
+    --maxw: 1120px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --milk: #201310;
+      --milk-deep: #2A1A15;
+      --surface: #2C1B15;
+      --ink: #FBEEE6;
+      --ink-soft: #C6A99C;
+      --line: #3D2820;
+      --berry: #F06A8E;
+      --berry-deep: #F0587F;
+      --berry-tint: #3A1B24;
+      --honey: #F7B94A;
+      --honey-tint: #38271266;
+      --shadow: 0 20px 50px -22px rgba(0, 0, 0, .6);
+      --shadow-sm: 0 10px 26px -14px rgba(0, 0, 0, .55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --milk: #201310;
+    --milk-deep: #2A1A15;
+    --surface: #2C1B15;
+    --ink: #FBEEE6;
+    --ink-soft: #C6A99C;
+    --line: #3D2820;
+    --berry: #F06A8E;
+    --berry-deep: #F0587F;
+    --berry-tint: #3A1B24;
+    --honey: #F7B94A;
+    --honey-tint: #38271266;
+    --shadow: 0 20px 50px -22px rgba(0, 0, 0, .6);
+    --shadow-sm: 0 10px 26px -14px rgba(0, 0, 0, .55);
+  }
+  :root[data-theme="light"] {
+    --milk: #FFF7F2;
+    --milk-deep: #FCEDE4;
+    --surface: #FFFFFF;
+    --ink: #2E1B15;
+    --ink-soft: #6E5248;
+    --line: #F0DCD0;
+    --berry: #E24A73;
+    --berry-deep: #C0355C;
+    --berry-tint: #FCE7EC;
+    --honey: #F5A623;
+    --honey-tint: #FDEECB;
+    --shadow: 0 18px 44px -20px rgba(74, 38, 22, .35);
+    --shadow-sm: 0 8px 22px -12px rgba(74, 38, 22, .30);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--milk);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: min(100% - 40px, var(--maxw)); margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 800; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  img { max-width: 100%; }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--berry-deep);
+  }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5em;
+    font-family: var(--display); font-weight: 700; font-size: 1rem;
+    padding: .85em 1.4em; border-radius: 999px;
+    text-decoration: none; cursor: pointer; border: 2px solid transparent;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary { background: var(--berry-deep); color: #fff; box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -14px rgba(192,53,92,.6); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--berry-deep); color: var(--berry-deep); transform: translateY(-2px); }
+  .btn:focus-visible { outline: 3px solid var(--honey); outline-offset: 2px; }
+
+  /* ---------- nav ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--milk) 86%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+  .brand { display: flex; align-items: center; gap: 11px; font-family: var(--display); font-weight: 800; font-size: 1.18rem; text-decoration: none; }
+  .brand .mark { width: 34px; height: 34px; flex: none; }
+  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links a { text-decoration: none; font-weight: 600; font-size: .96rem; color: var(--ink-soft); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .btn { color: #fff; }
+  @media (max-width: 720px) { .nav-links .txt-link { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding: 64px 0 40px; }
+  .hero h1 { font-size: clamp(2.6rem, 6vw, 4.3rem); line-height: 1.02; }
+  .hero h1 .swirl { color: var(--berry-deep); }
+  .hero p.lead { margin-top: 22px; font-size: 1.18rem; color: var(--ink-soft); max-width: 30ch; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .hero-note { margin-top: 18px; font-size: .92rem; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+  .hero-note b { color: var(--ink); font-weight: 700; }
+
+  .cookie-stage { position: relative; display: grid; place-items: center; min-height: 360px; }
+  .blob { position: absolute; inset: 0; margin: auto; width: 78%; aspect-ratio: 1; border-radius: 46% 54% 60% 40% / 55% 45% 55% 45%; background: radial-gradient(circle at 35% 30%, var(--honey-tint), transparent 70%); filter: blur(4px); }
+  :root[data-theme="dark"] .blob, .blob { }
+
+  /* CSS cookie */
+  .cookie {
+    position: relative; border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 30%, var(--cookie-1), var(--cookie-2) 62%, var(--cookie-edge) 100%);
+    box-shadow: inset 0 -8px 18px rgba(90,54,32,.45), inset 0 8px 14px rgba(255,240,210,.4), var(--shadow);
+  }
+  .cookie::after {
+    content: ""; position: absolute; inset: 6%; border-radius: 50%;
+    border: 2px dashed rgba(90,54,32,.18);
+  }
+  .cookie .chip { position: absolute; background: var(--chip); border-radius: 50%; box-shadow: inset 1px 1px 1px rgba(255,255,255,.25), 1px 1px 2px rgba(0,0,0,.25); }
+  .hero .cookie { width: min(340px, 74vw); aspect-ratio: 1; z-index: 2; animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(2deg); } }
+  @media (prefers-reduced-motion: reduce) { .hero .cookie { animation: none; } }
+  .sprinkle { position: absolute; font-size: 1.5rem; z-index: 3; }
+
+  /* ---------- badges strip ---------- */
+  .strip { background: var(--berry-deep); color: #fff; }
+  .strip-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 40px; padding: 20px 0; }
+  .strip-item { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1rem; }
+  .strip-item svg { flex: none; }
+
+  /* ---------- section ---------- */
+  section { padding: 74px 0; }
+  .sec-head { max-width: 46ch; margin-bottom: 40px; }
+  .sec-head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); margin-top: 10px; }
+  .sec-head p { margin-top: 14px; color: var(--ink-soft); font-size: 1.08rem; }
+
+  /* ---------- flavors ---------- */
+  .flavors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
+  .flavor {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow-sm);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .flavor:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .flavor .puck { width: 78px; height: 78px; margin-bottom: 16px; }
+  .flavor h3 { font-size: 1.24rem; display: flex; align-items: center; gap: 9px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  .flavor p { margin-top: 8px; color: var(--ink-soft); font-size: .98rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+  .tag { font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .03em; text-transform: uppercase; padding: .34em .7em; border-radius: 999px; }
+  .tag.gf { background: var(--honey-tint); color: #8a5a10; }
+  .tag.nf { background: var(--berry-tint); color: var(--berry-deep); }
+  :root[data-theme="dark"] .tag.gf { color: var(--honey); }
+  @media (prefers-color-scheme: dark) { .tag.gf { color: var(--honey); } }
+
+  /* ---------- everyone / split ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .everyone { background: var(--milk-deep); border-radius: 32px; }
+  .everyone .wrap { padding-block: 8px; }
+  .checklist { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 14px; }
+  .checklist li { display: flex; gap: 12px; align-items: flex-start; font-size: 1.04rem; }
+  .checklist .ck { flex: none; margin-top: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--berry-deep); display: grid; place-items: center; }
+  .cookie-cluster { position: relative; display: grid; place-items: center; min-height: 320px; }
+  .cookie-cluster .cookie { position: absolute; }
+  .cc1 { width: 190px; aspect-ratio: 1; top: 10%; left: 8%; z-index: 2; }
+  .cc2 { width: 150px; aspect-ratio: 1; bottom: 6%; right: 12%; z-index: 3; }
+  .cc3 { width: 120px; aspect-ratio: 1; top: 4%; right: 20%; z-index: 1; opacity: .96; }
+
+  /* ---------- steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm); }
+  .step .num { font-family: var(--display); font-weight: 800; font-size: 1.5rem; color: var(--berry-deep); display: flex; align-items: center; gap: 10px; }
+  .step .num::before { counter-increment: step; content: "0" counter(step); }
+  .step .num .rule { height: 2px; flex: 1; background: var(--line); border-radius: 2px; }
+  .step h3 { font-size: 1.2rem; margin-top: 14px; }
+  .step p { margin-top: 8px; color: var(--ink-soft); font-size: .98rem; }
+
+  /* ---------- testimonials ---------- */
+  .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+  .quote { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow-sm); }
+  .quote .stars { color: var(--honey); letter-spacing: 3px; font-size: 1rem; }
+  .quote blockquote { font-family: var(--serif); font-style: italic; font-size: 1.14rem; line-height: 1.5; margin: 14px 0 16px; }
+  .quote .who { font-family: var(--display); font-weight: 700; font-size: .95rem; }
+  .quote .who span { color: var(--ink-soft); font-weight: 500; }
+
+  /* ---------- final cta ---------- */
+  .final { text-align: center; }
+  .final-card {
+    background: linear-gradient(135deg, var(--berry-deep), #8f2547);
+    color: #fff; border-radius: 34px; padding: 66px 32px; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .final-card h2 { font-size: clamp(2rem, 5vw, 3rem); }
+  .final-card p { margin: 16px auto 0; max-width: 44ch; opacity: .92; font-size: 1.1rem; }
+  .final-card .btn-primary { background: #fff; color: var(--berry-deep); margin-top: 30px; font-size: 1.08rem; }
+  .final-card .btn-primary:hover { box-shadow: 0 16px 34px -12px rgba(0,0,0,.4); }
+  .final-card .emoji { position: absolute; opacity: .5; font-size: 3rem; }
+
+  /* ---------- footer ---------- */
+  footer.site { padding: 48px 0 60px; border-top: 1px solid var(--line); }
+  .foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: center; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 22px; }
+  .foot-links a { text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: .95rem; }
+  .foot-links a:hover { color: var(--berry-deep); }
+  .foot-legal { color: var(--ink-soft); font-size: .86rem; margin-top: 22px; }
+
+  /* theme toggle */
+  .toggle { background: transparent; border: 1px solid var(--line); border-radius: 999px; width: 38px; height: 38px; cursor: pointer; font-size: 1rem; display: grid; place-items: center; color: var(--ink); }
+  .toggle:hover { border-color: var(--berry-deep); }
+
+  @media (max-width: 860px) {
+    .hero-grid, .split { grid-template-columns: 1fr; }
+    .hero-grid { padding-top: 40px; }
+    .cookie-stage { min-height: 300px; order: -1; }
+    .steps { grid-template-columns: 1fr; }
+    section { padding: 56px 0; }
+  }
+</style>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="18" fill="#E7B36A" stroke="#A6672A" stroke-width="2"/>
+        <circle cx="14" cy="15" r="2.4" fill="#5A3620"/>
+        <circle cx="25" cy="13" r="2" fill="#5A3620"/>
+        <circle cx="27" cy="24" r="2.6" fill="#5A3620"/>
+        <circle cx="16" cy="26" r="2" fill="#5A3620"/>
+        <circle cx="21" cy="20" r="1.7" fill="#5A3620"/>
+      </svg>
+      One More Flavor
+    </a>
+    <nav class="nav-links">
+      <a class="txt-link" href="#flavors">Flavors</a>
+      <a class="txt-link" href="#everyone">Allergy-friendly</a>
+      <a class="txt-link" href="#order">How to order</a>
+      <button class="toggle" id="themeBtn" aria-label="Switch light or dark mode" title="Switch theme">🌙</button>
+      <a class="btn btn-primary" href="#order-link" data-order>Order cookies</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Fresh-baked · small batch</span>
+        <h1>Cookies worth a <span class="swirl">second helping.</span></h1>
+        <p class="lead">Gluten-free and nut-free treats so good, no one will believe they're "the healthy ones." Baked to order, right here.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#order-link" data-order>Order on Bakesy →</a>
+          <a class="btn btn-ghost" href="#flavors">See the flavors</a>
+        </div>
+        <p class="hero-note"><b>★ 5.0</b> loved by 200+ local sweet-tooths</p>
+      </div>
+      <div class="cookie-stage">
+        <div class="blob"></div>
+        <span class="sprinkle" style="top:8%; left:14%">✨</span>
+        <span class="sprinkle" style="bottom:12%; right:10%">🍪</span>
+        <div class="cookie" id="heroCookie" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGE STRIP -->
+  <div class="strip">
+    <div class="wrap strip-inner">
+      <div class="strip-item">🌾 Gluten-free</div>
+      <div class="strip-item">🥜 Nut-free kitchen</div>
+      <div class="strip-item">🧈 Real butter &amp; chocolate</div>
+      <div class="strip-item">📦 Local pickup &amp; delivery</div>
+    </div>
+  </div>
+
+  <!-- FLAVORS -->
+  <section id="flavors">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">The lineup</span>
+        <h2>Pick a flavor. Then, probably, one more.</h2>
+        <p>Every cookie is baked in a dedicated gluten-free, nut-free kitchen — so the whole table can share.</p>
+      </div>
+      <div class="flavors-grid" id="flavorsGrid"></div>
+      <p style="margin-top:26px; color:var(--ink-soft); font-size:.98rem">Rotating specials drop weekly on Bakesy. <a href="#order-link" data-order style="color:var(--berry-deep); font-weight:700; text-decoration:none">See what's fresh today →</a></p>
+    </div>
+  </section>
+
+  <!-- EVERYONE -->
+  <section id="everyone" class="everyone">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Made for everyone</span>
+        <h2 style="font-size:clamp(1.9rem,4vw,2.7rem); margin-top:10px">Allergy-friendly, never flavor-free.</h2>
+        <p style="margin-top:14px; color:var(--ink-soft); font-size:1.08rem">"Gluten-free" and "nut-free" usually mean settling. Not here. We started One More Flavor so anyone could grab a warm cookie without reading the fine print — and keep coming back for the taste, not just the label.</p>
+        <ul class="checklist">
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 14 14"><path d="M2 7.5L5.5 11L12 3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Certified gluten-free flour, every batch</li>
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 14 14"><path d="M2 7.5L5.5 11L12 3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> A 100% nut-free kitchen — no cross-contact</li>
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 14 14"><path d="M2 7.5L5.5 11L12 3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Classic recipes too — everyone eats the same cookie</li>
+        </ul>
+      </div>
+      <div class="cookie-cluster" aria-hidden="true">
+        <div class="cookie cc1"></div>
+        <div class="cookie cc2"></div>
+        <div class="cookie cc3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section id="order">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Easy as 1-2-3</span>
+        <h2>Warm cookies, three taps away.</h2>
+        <p>Ordering runs on Bakesy — secure checkout, no account needed.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num"><span class="rule"></span></div>
+          <h3>Choose your box</h3>
+          <p>Mix and match a half-dozen or a full dozen from the current flavors.</p>
+        </div>
+        <div class="step">
+          <div class="num"><span class="rule"></span></div>
+          <h3>Pick a day</h3>
+          <p>Select a pickup or local delivery slot that works for you at checkout.</p>
+        </div>
+        <div class="step">
+          <div class="num"><span class="rule"></span></div>
+          <h3>We bake &amp; you enjoy</h3>
+          <p>Everything's baked fresh the morning of — never sitting on a shelf.</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:38px">
+        <a class="btn btn-primary" href="#order-link" data-order>Start my order →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Kind words</span>
+        <h2>People come back. And bring friends.</h2>
+      </div>
+      <div class="quotes">
+        <div class="quote">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>"My daughter has a nut allergy and hasn't been able to eat a bakery cookie in years. She cried happy tears. Thank you."</blockquote>
+          <div class="who">Maria R. <span>— repeat customer</span></div>
+        </div>
+        <div class="quote">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>"Genuinely didn't clock these as gluten-free. Chewy, buttery, perfect. The whole office fought over the box."</blockquote>
+          <div class="who">Devon P. <span>— office order</span></div>
+        </div>
+        <div class="quote">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>"Ordering took two minutes and pickup was warm and on time. This is my new regular treat, full stop."</blockquote>
+          <div class="who">Sam K. <span>— local regular</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <div class="wrap">
+      <div class="final-card">
+        <span class="emoji" style="top:16px; left:24px">🍪</span>
+        <span class="emoji" style="bottom:18px; right:30px">✨</span>
+        <span class="emoji" style="top:40px; right:60px; font-size:2rem">🌾</span>
+        <h2>Go on — you deserve one more.</h2>
+        <p>Fresh batches sell out. Reserve your box today and taste why everyone keeps coming back.</p>
+        <a class="btn btn-primary" href="#order-link" data-order>Order cookies on Bakesy →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="brand" href="#top">
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="18" fill="#E7B36A" stroke="#A6672A" stroke-width="2"/>
+          <circle cx="14" cy="15" r="2.4" fill="#5A3620"/><circle cx="25" cy="13" r="2" fill="#5A3620"/>
+          <circle cx="27" cy="24" r="2.6" fill="#5A3620"/><circle cx="16" cy="26" r="2" fill="#5A3620"/>
+        </svg>
+        One More Flavor
+      </a>
+      <nav class="foot-links">
+        <a href="#flavors">Flavors</a>
+        <a href="#everyone">Allergy info</a>
+        <a href="#order">How to order</a>
+        <a href="#order-link" data-order>Order now</a>
+      </nav>
+    </div>
+    <p class="foot-legal">© 2026 One More Flavor · Baked fresh in a dedicated gluten-free, nut-free kitchen · Order online via Bakesy</p>
+  </div>
+</footer>
+
+<script>
+  // ----- theme toggle -----
+  const root = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  const setIcon = () => {
+    const dark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    btn.textContent = dark ? '☀️' : '🌙';
+  };
+  btn.addEventListener('click', () => {
+    const dark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    setIcon();
+  });
+  setIcon();
+
+  // ----- order links (swap this for your Bakesy shop URL) -----
+  const BAKESY_URL = "https://bakesy.shop/"; // TODO: replace with your One More Flavor shop link
+  document.querySelectorAll('[data-order]').forEach(a => {
+    a.setAttribute('href', BAKESY_URL);
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+  });
+
+  // ----- scatter chocolate chips on every cookie -----
+  function chip(min, max){ return min + Math.random() * (max - min); }
+  document.querySelectorAll('.cookie').forEach(c => {
+    const n = 7 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < n; i++){
+      const s = document.createElement('span');
+      s.className = 'chip';
+      const size = chip(7, 13);
+      const ang = Math.random() * Math.PI * 2;
+      const rad = Math.sqrt(Math.random()) * 34;      // even fill within disc
+      const x = 50 + Math.cos(ang) * rad;
+      const y = 50 + Math.sin(ang) * rad;
+      s.style.width = size + '%';
+      s.style.height = size + '%';
+      s.style.left = x + '%';
+      s.style.top = y + '%';
+      s.style.transform = 'translate(-50%,-50%)';
+      c.appendChild(s);
+    }
+  });
+
+  // ----- flavor cards -----
+  const flavors = [
+    { name: "Classic Chocolate Chip", dot: "var(--f-choc)", puck: "#E7B36A",
+      desc: "The one that started it all — crisp edges, gooey middle, pools of dark chocolate.", tags: ["gf","nf"] },
+    { name: "Double Chocolate", dot: "var(--f-choc)", puck: "#6E4326",
+      desc: "Deep cocoa dough loaded with melty chunks. For the serious chocolate people.", tags: ["gf","nf"] },
+    { name: "Matcha White Chocolate", dot: "var(--f-matcha)", puck: "#B9CB84",
+      desc: "Earthy stone-ground matcha balanced with sweet white chocolate.", tags: ["gf","nf"] },
+    { name: "Strawberry Shortcake", dot: "var(--f-berry)", puck: "#E8B7C4",
+      desc: "Freeze-dried strawberries and vanilla crumble in a soft, pink-swirled cookie.", tags: ["gf","nf"] },
+    { name: "Blueberry Lemon", dot: "var(--f-blue)", puck: "#C5CDEA",
+      desc: "Bright lemon zest and bursts of real blueberry. Tastes like a summer morning.", tags: ["gf","nf"] },
+    { name: "Golden Snickerdoodle", dot: "var(--f-lemon)", puck: "#EBCF97",
+      desc: "Warm cinnamon sugar, buttery and soft. A nostalgic classic done right.", tags: ["gf","nf"] },
+  ];
+  const grid = document.getElementById('flavorsGrid');
+  grid.innerHTML = flavors.map(f => `
+    <article class="flavor">
+      <div class="cookie puck" style="--cookie-1:${f.puck}"></div>
+      <h3><span class="dot" style="background:${f.dot}"></span>${f.name}</h3>
+      <p>${f.desc}</p>
+      <div class="tags">
+        ${f.tags.includes('gf') ? '<span class="tag gf">Gluten-free</span>' : ''}
+        ${f.tags.includes('nf') ? '<span class="tag nf">Nut-free</span>' : ''}
+      </div>
+    </article>`).join('');
+
+  // add chips to the freshly-created flavor pucks
+  document.querySelectorAll('.flavor .cookie').forEach(c => {
+    for (let i = 0; i < 6; i++){
+      const s = document.createElement('span');
+      s.className = 'chip';
+      const ang = Math.random() * Math.PI * 2;
+      const rad = Math.sqrt(Math.random()) * 32;
+      s.style.width = s.style.height = chip(9,14) + '%';
+      s.style.left = (50 + Math.cos(ang)*rad) + '%';
+      s.style.top = (50 + Math.sin(ang)*rad) + '%';
+      s.style.transform = 'translate(-50%,-50%)';
+      c.appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
